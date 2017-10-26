@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Личный кабинет</title>
+</head>
+<body>
+<th:block th:replace="/partial/header :: header">
+</th:block>
+
+<div class="btn-group" role="group" aria-label="Basic example">
+    <div th:if="${login} eq 'admin'"><button type="button" class="btn btn-secondary"><a th:href="@{/userDetails}">Изменить роль юзеров</a></button></div>
+    <button type="button" class="btn btn-secondary"><a th:href="@{/change(login=${login})}">Изменить email и телефон</a></button>
+    <button type="button" class="btn btn-secondary"><a th:href="@{/details(id=${customUser.id})}">Изменить логин и пароль</a></button>
+    <button type="button" id="delete_contact" class="btn btn-secondary"><a>Удалить сообщение</a></button>
+</div>
+
+
+
+<h1> Данные пользователя: </h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td>Логин</td>
+        <td>Пароль</td>
+        <td>Email</td>
+        <td>Телефон</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:object="${customUser}">
+        <td th:utext="${customUser.login}"></td>
+        <td th:utext="${customUser.password}"></td>
+        <td th:utext="${customUser.email}"></td>
+        <td th:utext="${customUser.phone}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<h1>Сообщения</h1>
+<table class="table table-striped">
+    <thead>
+    <tr>
+    <td>Выбрать</td>
+    <td>Отправитель</td>
+    <td>Тема</td>
+    <td>Текст сообщения</td>
+    <td>Дата</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c:${message}">
+        <td><input type="checkbox" name="toDelete[]" th:value="${c.id}" id="checkbox_${subject.id}"/></td>
+        <td><a th:href="@{/createPrivateMessage(recipientName=${c.senderName})}" th:utext="${c.senderName}"></a></td>
+        <td th:utext="${c.subject}"></td>
+        <td th:utext="${c.text}"></td>
+        <td th:utext="${c.date}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="fixed-bottom"><th:block th:replace="/partial/footer :: footer">
+</th:block></div>
+<script>
+    $('#delete_contact').click(function () {
+        var data = {'toDelete[]': []};
+        $(":checked").each(function () {
+            data['toDelete[]'].push($(this).val());
+        });
+        $.post("/privateMessage/delete", data, function (data, status) {
+            window.location.reload();
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Настройки профиля</title>
+</head>
+<body>
+<div class="container">
+    <form action="/changeEmail" method="POST">
+        <div class="form-group">
+            <input type="hidden" th:value="${login}" name="login" id="login"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="formGroupExampleInput">Email</label>
+            <input type="text" name="email" class="form-control" id="formGroupExampleInput"
+                   placeholder="Example@mail.com"/>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="formGroupExampleInput2">Phone</label>
+            <input type="text" name="phone" class="form-control" id="formGroupExampleInput2"
+                   placeholder="+380(00)123-11-11"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<th:block th:replace="/partial/footer :: footer">
+</th:block>
+
+</body>
+</html>

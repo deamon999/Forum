@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Детали профиля</title>
+</head>
+<body>
+<th:block th:replace="/partial/header :: header">
+</th:block>
+
+<h1> Данные пользователя: </h1>
+<table class="table table-hover">
+    <thead class="thead-inverse">
+    <tr>
+        <td>Логин</td>
+        <td>Пароль</td>
+        <td>Email</td>
+        <td>Телефон</td>
+        <td>Роль</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="customUser : ${list}">
+        <td th:utext="${customUser.login}"></td>
+        <td th:utext="${customUser.password}"></td>
+        <td th:utext="${customUser.email}"></td>
+        <td th:utext="${customUser.phone}"></td>
+        <td th:utext="${customUser.role}"></td>
+        <td>
+            <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Изменить параметр
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" th:href="@{/roleAdmin/(id=${customUser.id})}">ADMIN</a>
+                <a class="dropdown-item" th:href="@{/roleUser/(id=${customUser.id})}">USER</a>
+            </div>
+        </div></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

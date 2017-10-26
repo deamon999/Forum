@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head >
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>ФОРУМ</title>
+</head>
+<body>
+<th:block th:replace="/partial/header :: header">
+</th:block>
+
+<nav class="navbar navbar-light bg-light">
+    <form class="form-inline">
+        <button class="btn btn-outline-success" type="button" id="cabinet"><a th:href="@{/createCategory}">Новая
+            категория</a></button>
+        <button class="btn btn-sm align-middle btn-outline-secondary" type="button" id="delete_contact">Удалить
+            категорию
+        </button>
+    </form>
+</nav>
+
+<table class="table table-hover">
+    <thead class="thead-inverse">
+    <tr>
+        <th>Выбрать</th>
+        <th><b>Категории</b></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c:${category}">
+        <td><input type="checkbox" name="toDelete[]" th:value="${c.id}" id="checkbox_${contact.id}"/></td>
+        <td><a th:href="@{/subject(id=${c.id})}" th:utext="${c.name}"></a></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="card">
+    <div class="card-header">
+        Статистика
+    </div>
+    <div class="card-body">
+        <blockquote class="blockquote mb-0">
+            <ul class="list-group">
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Категории:
+                    <span class="badge badge-primary badge-pill" th:utext="${categoryCount}"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Темы:
+                    <span class="badge badge-primary badge-pill" th:utext="${subjectCount}"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Сообщения:
+                    <span class="badge badge-primary badge-pill" th:utext="${messageCount}"></span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    Пользователи:
+                    <span class="badge badge-primary badge-pill" th:utext="${userCount}"></span>
+                </li>
+            </ul>
+            <footer class="blockquote-footer">Данные пользователя: <cite title="Source Title">
+                <th:block th:replace="/partial/footer :: footer">
+                </th:block>
+            </cite></footer>
+        </blockquote>
+    </div>
+</div>
+
+
+<script>
+    $('#delete_contact').click(function () {
+        var data = {'toDelete[]': []};
+        $(":checked").each(function () {
+            data['toDelete[]'].push($(this).val());
+        });
+        $.post("/category/delete", data, function (data, status) {
+            window.location.reload();
+        });
+    });
+</script>
+</body>
+</html>

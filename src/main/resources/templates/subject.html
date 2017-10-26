@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Темы</title>
+</head>
+<body>
+<th:block th:replace="/partial/header :: header">
+</th:block>
+
+<nav class="navbar navbar-light bg-light">
+    <form class="form-inline">
+        <button class="btn btn-outline-success" type="button" id="cabinet" ><a
+                th:href="@{/createSubject(id=${category.id})}">Новая
+            тема</a></button>
+        <button class="btn btn-sm align-middle btn-outline-secondary" type="button" id="delete_contact" >Удалить тему</button>
+    </form>
+</nav>
+
+<table class="table table-hover">
+    <thead class="thead-inverse">
+    <tr>
+        <td>Выбрать</td>
+        <td><b>Темы</b></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c:${subject}">
+        <td><input type="checkbox" name="toDelete[]" th:value="${c.id}" id="checkbox_${subject.id}"/></td>
+        <td><a th:href="@{/message(id=${c.id})}" th:utext="${c.name}"></a></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="fixed-bottom"><th:block th:replace="/partial/footer :: footer">
+</th:block></div>
+<script>
+    $('#delete_contact').click(function () {
+        var data = {'toDelete[]': []};
+        $(":checked").each(function () {
+            data['toDelete[]'].push($(this).val());
+        });
+        $.post("/subject/delete", data, function (data, status) {
+            window.location.reload();
+        });
+    });
+</script>
+</body>
+</html>

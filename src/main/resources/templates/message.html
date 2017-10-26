@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Сообщения</title>
+</head>
+<body>
+<th:block th:replace="/partial/header :: header">
+</th:block>
+
+
+<nav class="navbar navbar-light bg-light">
+    <form class="form-inline">
+        <button class="btn btn-outline-success" type="button" id="cabinet"><a
+                th:href="@{/createMessage(id=${subject.id})}">Новое сообщение</a></button>
+        <button class="btn btn-sm align-middle btn-outline-secondary" type="button" id="delete_contact">Удалить
+            сообщение
+        </button>
+    </form>
+</nav>
+
+
+<h1>Сообщения</h1>
+<table class="table table-hover">
+    <thead class="thead-inverse">
+    <tr>
+        <td>Выбрать</td>
+        <td>Отправитель</td>
+        <td>Текст сообщения</td>
+        <td>Дата</td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c:${message}">
+        <td><input type="checkbox" name="toDelete[]" th:value="${c.id}" id="checkbox_${subject.id}"/></td>
+        <td><a th:href="@{/createPrMessage(recipientName=${c.senderName}, id=${subject.id})}"
+               th:utext="${c.senderName}"></a></td>
+        <td th:utext="${c.text}"></td>
+        <td th:utext="${c.date}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="fixed-bottom">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+            <li class="page-item ">
+                <a class="page-link" th:href="@{/previous/(id=${subject.id})}">Previous</a>
+            </li>
+
+            <li class="page-item">
+                <a class="page-link" th:href="@{/next/(id=${subject.id})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+    <th:block th:replace="/partial/footer :: footer">
+    </th:block>
+</div>
+<script>
+    $('#delete_contact').click(function () {
+        var data = {'toDelete[]': []};
+        $(":checked").each(function () {
+            data['toDelete[]'].push($(this).val());
+        });
+        $.post("/message/delete", data, function (data, status) {
+            window.location.reload();
+        });
+    });
+</script>
+
+</body>
+</html>

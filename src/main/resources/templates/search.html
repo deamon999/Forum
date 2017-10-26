@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <title>Результат поиска</title>
+</head>
+<body>
+<th:block th:replace="/partial/header :: header">
+</th:block>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td><b>Темы</b></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="c:${subject}">
+        <td><a th:href="@{/message(id=${c.id})}" th:utext="${c.name}"></a></td>
+    </tr>
+    </tbody>
+</table>
+<th:block th:replace="/partial/footer :: footer">
+</th:block>
+</body>
+</html>
