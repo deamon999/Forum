@@ -29,8 +29,14 @@
     </form>
 </div>
 
-<th:block th:replace="/partial/footer :: footer">
-</th:block>
+<footer>
+    <span sec:authorize="isAuthenticated()">
+                | Logged user: <span sec:authentication="name"></span> |
+                Roles: <span sec:authentication="principal.authorities"></span> |
+                <a th:href="@{/logout}">Sign Out</a>
+            </span>
+
+</footer>
 
 </body>
 </html>
