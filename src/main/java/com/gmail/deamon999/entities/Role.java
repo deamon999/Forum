@@ -1,18 +1,12 @@
 package com.gmail.deamon999.entities;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "roles")
-@NoArgsConstructor
-@Getter
-@Setter
+
 public class Role {
     @Id
     @GeneratedValue
@@ -28,5 +22,29 @@ public class Role {
     @Override
     public String toString() {
         return "Role{" + role + "}";
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public List<CustomUser> getCustomUsers() {
+        return customUsers;
+    }
+
+    public void setCustomUsers(List<CustomUser> customUsers) {
+        this.customUsers = customUsers;
     }
 }

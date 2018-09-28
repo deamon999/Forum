@@ -1,20 +1,12 @@
 package com.gmail.deamon999.entities;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "subjects")
-@Data
-@NoArgsConstructor
-@Getter
-@Setter
+
 public class Subject {
     @Id
     @GeneratedValue
@@ -34,5 +26,37 @@ public class Subject {
     public Subject(String name, Category category) {
         this.name = name;
         this.category = category;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public List<Message> getList() {
+        return list;
+    }
+
+    public void setList(List<Message> list) {
+        this.list = list;
     }
 }
