@@ -30,4 +30,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         return new User(customUser.getLogin(), customUser.getPassword(), roles);
     }
+
+
 }
